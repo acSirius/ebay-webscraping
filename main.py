@@ -6,21 +6,20 @@ URL = 'https://www.ebay.ie/itm/Gigabyte-GeForce-RTX-2080-Ti-Gaming-OC-RGB-82-mm-
 r = requests.get(URL)
 soup = BeautifulSoup(r.content, 'html.parser')
 
-price_str = soup.find(id='prcIsum').get_text()[-8:]
+price_str = soup.find(id='prcIsum').get_text()
 
-def remove_comma(): # We need to remove comma from the price string to be able to convert it into a float
-    price_no_comma = ''
+def remove_comma(): # We need to remove comma from the price string to be able to convert it into a float, we also need to remove any characters such as £ or EUR
+    price_digits = ''
     for i in price_str:
-        if i == ',':
-            pass
-        else:
-            price_no_comma += i
+        if i.isdigit() or i == '.':
+            price_digits += i
 
-    price = float(price_no_comma)
+    price = float(price_digits)
     return price
 
 price = remove_comma() # This is now the price as a float
 
+print(price)
 
 desired_price = float(input('How much are you willing to pay for this product?  '))
 
