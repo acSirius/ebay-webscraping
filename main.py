@@ -8,16 +8,16 @@ soup = BeautifulSoup(r.content, 'html.parser')
 
 price_str = soup.find(id='prcIsum').get_text()
 
-def remove_comma(): # We need to remove comma from the price string to be able to convert it into a float, we also need to remove any characters such as £ or EUR
+def only_digits(): # We need to remove comma from the price string to be able to convert it into a float, we also need to remove any characters such as £ or EUR
     price_digits = ''
     for i in price_str:
-        if i.isdigit() or i == '.':
+        if i.isdigit() or i == '.': #Removes anything thats not a digit or a dot (dot is necessary for decimal place)
             price_digits += i
 
     price = float(price_digits)
     return price
 
-price = remove_comma() # This is now the price as a float
+price = only_digits() # This is now the price as a float
 
 print(price)
 
